@@ -109,8 +109,7 @@ export default function Dashboard() {
           </div>
 
           <div style={s.small2}>
-            If you see “no access to Digital Banking”, that’s now a Unit-side permission/onboarding state
-            (not a login bug).
+            Your Corporate Banking Experience Starts Here.
           </div>
         </div>
       </div>
