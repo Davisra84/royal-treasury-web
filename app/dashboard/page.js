@@ -11,70 +11,7 @@ export default function Dashboard() {
   const [unitToken, setUnitToken] = useState("");
   const [unitReady, setUnitReady] = useState(false);
 
-  // Load Unit web components script (Sandbox)
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.__unitLoaded) {
-      setUnitReady(true);
-      return;
-    }
-
-    const s = document.createElement("script");
-    s.async = true;
-    s.src = "https://ui.s.unit.sh/release/latest/components-extended.js"; // SANDBOX
-    s.onload = () => {
-      window.__unitLoaded = true;
-      setUnitReady(true);
-    };
-    s.onerror = () => setMsg("Failed to load Unit web components script.");
-    document.head.appendChild(s);
-  }, []);
-
-  // Keep session + fetch Unit JWT
-  useEffect(() => {
-    let sub;
-
-    async function init(session) {
-      setEmail(session.user.email || "");
-
-      const res = await fetch("/api/unit/jwt", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${session.access_token}` },
-      });
-
-      const json = await res.json();
-      if (!res.ok) {
-        setMsg(json.error || "Unable to create Unit JWT.");
-        return;
-      }
-
-      setUnitToken(json.token);
-      setMsg("Banking ready.");
-    }
-
-    (async () => {
-      const { data } = await supabase.auth.getSession();
-      if (!data?.session) {
-        r.push("/login");
-        return;
-      }
-      await init(data.session);
-
-      const { data: s } = supabase.auth.onAuthStateChange(async (_evt, session) => {
-        if (!session) r.push("/login");
-      });
-      sub = s?.subscription;
-    })();
-
-    return () => sub?.unsubscribe?.();
-  }, [r]);
-
-  async function logout() {
-    await supabase.auth.signOut();
-    r.push("/login");
-  }
-
-  return (
+  
     <div style={s.bg}>
       <div style={s.top}>
         <div>
