@@ -8,8 +8,6 @@ export default function Dashboard() {
   const r = useRouter();
   const [email, setEmail] = useState("");
   const [msg, setMsg] = useState("Loading…");
-  const [unitToken, setUnitToken] = useState("");
-  const [unitReady, setUnitReady] = useState(false);
 
   
     <div style={s.bg}>
